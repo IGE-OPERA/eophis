@@ -7,8 +7,8 @@ A collection of operating tests for continuous integration and demonstration pur
 `Write and Couple <https://github.com/meom-group/eophis/tree/main/tests/write_and_couple>`_
 -------------------------------------------------------------------------------------------
 
-A surrogate geoscientific code with an hard-coded OASIS interface is emulated by ``toy_earth.py``.
-The script advances in time in accordance with parameters provided in the Fortran namelist ``earth_namelist``.
+A surrogate ESM with an hard-coded OASIS3-MCT interface is emulated by ``toy_earth.py``.
+The ESM advances in time in accordance with parameters provided in the Fortran namelist ``earth_namelist``.
 ``models.py`` contains a dummy model ``add_100()`` that we wish to deploy within Toy Earth.
 
 
@@ -21,7 +21,7 @@ and to receive from the Python model:
     - one field ``svt_var``, computed from ``svt``, with same dimensions
 
 
-Eophis script ``main.py`` aims to write coupling namelist, configure OASIS interface for ``models.py``, and orchestrate connexions between exchanged data and ``add_100()``.
+Eophis script ``main.py`` aims to write coupling namelist, configure OASIS3-MCT interface for ``models.py``, and orchestrate connexions between exchanged data and ``add_100()``.
 
 .. image:: images/write_and_couple_pipeline.png
    :width: 600px
@@ -64,8 +64,8 @@ Following commands run the test (number of executing processes may be changed in
 `Halo Decomposition <https://github.com/meom-group/eophis/tree/main/tests/halo_decomposition>`_
 -----------------------------------------------------------------------------------------------
 
-A surrogate geoscientific code with an hard-coded OASIS interface is emulated by ``toy_earth.py``.
-The script advances in time in accordance with parameters provided in the Fortran namelist ``earth_namelist``. ``models.py`` contains a dummy model ``deltaxy()`` that computes first order discrete differences along first and second axis.
+A surrogate ESM with an hard-coded OASIS3-MCT interface is emulated by ``toy_earth.py``.
+The ESM advances in time in accordance with parameters provided in the Fortran namelist ``earth_namelist``. ``models.py`` contains a dummy model ``deltaxy()`` that computes first order discrete differences along first and second axis.
 
 Differences imply to know neighboring cells. Those will be missing at boundaries, especially if ``models.py`` is scattered among processes. Fields need to be received on the model side with at least 1 extra halo cell to compute correct differences. It is also required to determine the values of the halos located over the edges of the global grid.
 
@@ -112,8 +112,8 @@ Following commands run the test (number of running CPUs may be changed in *Makef
 `Toy Earth <https://github.com/meom-group/eophis/tree/main/tests/toy_earth>`_
 -----------------------------------------------------------------------------
 
-A surrogate geoscientific code with an hard-coded OASIS interface is emulated by ``toy_earth.py``.
-The script reads the ``namcouple`` and ``eophis_nml`` files generated during preproduction phase. From those information, Toy Earth initializes the right number of arrays with right shapes, following main Eophis script.
+A surrogate ESM with an hard-coded OASIS3-MCT interface is emulated by ``toy_earth.py``.
+The ESM reads the ``namcouple`` and ``eophis_nml`` files generated during preproduction phase. From those information, Toy Earth initializes the right number of arrays with right shapes, following main Eophis script.
 Finally, the script advances in time and perform the exchanges of arrays, according to the defined coupling context.
 
 

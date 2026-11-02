@@ -92,10 +92,10 @@ Please make sure that the following requisites are installed on your system:
 OASIS3-MCT_5.0
 ''''''''''''''
 
-**Download and compile OASIS**
+**Download and compile OASIS3-MCT**
 
 
-Get OASIS sources by cloning git repository:
+Get OASIS3-MCT sources by cloning git repository:
 
 .. code-block:: bash
 
@@ -110,7 +110,7 @@ Check commit and go in compilation directory:
      cd util/make_dir
 
 
-OASIS libraries must be dynamically compiled. Edit your own ``make.<YOUR_ARCH>`` file. Pay attention to the following important variables:
+OASIS3-MCT libraries must be dynamically compiled. Edit your own ``make.<YOUR_ARCH>`` file. Pay attention to the following important variables:
 
 .. code-block:: makefile
 
@@ -132,7 +132,7 @@ OASIS libraries must be dynamically compiled. Edit your own ``make.<YOUR_ARCH>``
      FCBASEFLAGS = -O2 ...
      CCBASEFLAGD = -O2 ...
 
-.. note:: Arch files for common machines and/or HPC centers are provided in OASIS sources.
+.. note:: Arch files for common machines and/or HPC centers are provided in OASIS3-MCT sources.
 
 
 .. code-block:: bash
@@ -155,14 +155,14 @@ If everything goes right, you should find the following libraries in ``oasis3-mc
 
 **PyOASIS**
 
-PyOASIS is the Python API of OASIS. Source the following files to initialize PyOASIS modules. The best is to put those commands in your ``.bash_profile``:
+PyOASIS is the Python API of OASIS3-MCT. Source the following files to initialize PyOASIS modules. The best is to put those commands in your ``.bash_profile``:
 
 .. code-block:: bash
 
     source /PATH/TO/oasis3-mct/BLD/python/init.sh
     source /PATH/TO/oasis3-mct/BLD/python/init.csh
 
-Python libraries required to use PyOASIS will be automatically installed with Eophis package. For more details, please check out `OASIS documentation <https://oasis.cerfacs.fr/en/documentation/>`_.
+Python libraries required to use PyOASIS will be automatically installed with Eophis package. For more details, please check out `OASIS3-MCT documentation <https://oasis.cerfacs.fr/en/documentation/>`_.
 
 
 

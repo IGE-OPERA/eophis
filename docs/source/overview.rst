@@ -4,7 +4,7 @@ Eophis
 .. toctree::
     :maxdepth: 0
     
-**Eophis** is a collection of tools that eases the deployment of Python scripts (such as pre-trained Machine Learning components) within Fortran/C geoscientific models through OASIS. Context of Eophis development is described `here <https://eophis.readthedocs.io/en/latest/concept_motivation.html>`_.
+**Eophis** is a collection of tools that eases the deployment of Python scripts (such as pre-trained Machine Learning components) within Fortran/C geoscientific models through OASIS3-MCT. Context of Eophis development is described `here <https://eophis.readthedocs.io/en/latest/concept_motivation.html>`_.
 
     *Also it is the currently oldest known snake ancestra (2023)*
 
@@ -12,7 +12,7 @@ Eophis source code, related files and documentation are distributed under an `MI
 
 -------------------------------
 
-`OASIS <https://oasis.cerfacs.fr/en/>`_ is a parallelized Fortran coupling library that performs field exchanges between coupled executables. Last releases provided C and Python APIs, which enable coupling between non-homogeneously written codes.
+`OASIS3-MCT <https://oasis.cerfacs.fr/en/>`_ is a middleware framework widely used in the climate modelling community to performs field exchanges between coupled components. It provides Fortran, C and Python APIs, which enable coupling between non-homogeneously written codes.
 
 
 Basically, Eophis allows to:

@@ -20,7 +20,7 @@ Prerequisites to the tutorial:
 Introduction
 -------------
 
-A surrogate geoscientific model "Toy Earth" with an OASIS interface is emulated by ``toy_earth_tuto.py``. It initializes three dimensionless physical 3D fields ``U``, ``V``, ``T``, discretized on metric 2D fields ``X``, ``Y`` that represent the simulated domain. The script advances in time in accordance with parameters provided in the Fortran namelist ``earth_namelist_tuto`` and updates the physical fields with the following equation:
+A surrogate ESM "Toy Earth" with an OASIS3-MCT interface is emulated by ``toy_earth_tuto.py``. It initializes three dimensionless physical 3D fields ``U``, ``V``, ``T``, discretized on metric 2D fields ``X``, ``Y`` that represent the simulated domain. The script advances in time in accordance with parameters provided in the Fortran namelist ``earth_namelist_tuto`` and updates the physical fields with the following equation:
 
 .. code-block :: bash
 
@@ -28,13 +28,13 @@ A surrogate geoscientific model "Toy Earth" with an OASIS interface is emulated 
     
 Where ``A`` is one of the abovementioned physical fields and ``B`` a forcing term corresponding to ``A``.
 
-The model can be executed in two distinct modes:
-    - **standalone:** ``B`` is imposed with a constant value. OASIS interface is disabled.
-    - **coupled:** OASIS interface is activated and Toy Earth can send the physical and metric fields through OASIS. It can also receive up to three forcing fields. If a forcing field is received, it is used instead of ``B`` for time advancement.
+The ESM can be executed in two distinct modes:
+    - **standalone:** ``B`` is imposed with a constant value. OASIS3-MCT interface is disabled.
+    - **coupled:** OASIS3-MCT interface is activated and Toy Earth can send the physical and metric fields through OASIS3-MCT. It can also receive up to three forcing fields. If a forcing field is received, it is used instead of ``B`` for time advancement.
 
 .. note::
     
-    It is then possible to change the way the physical fields are forced. The only condition is to compute the forcing terms in an external script and to exchange results through OASIS.
+    It is then possible to change the way the physical fields are forced. The only condition is to compute the forcing terms in an external script and to exchange results through OASIS3-MCT.
 
 
 Run Toy Earth
@@ -115,7 +115,7 @@ Note that in accordance with header instructions, ``compute_gradient()`` returns
 
 .. note ::
 
-    We have now an external forcing model we wish our geoscientific code to use. However, ``models_tuto.py`` does not possess an OASIS interface and cannot be coupled with Toy Earth. In the next sections, we will build the Eophis script to set up and configure the coupling environment.
+    We have now an external forcing model we wish our ESM to use. However, ``models_tuto.py`` does not possess an OASIS3-MCT interface and cannot be coupled with Toy Earth. In the next sections, we will build the Eophis script to set up and configure the coupling environment.
 
 
 Eophis Script
@@ -176,14 +176,14 @@ Now that we have defined the exchanges, we can create the Tunnel object in the `
 
     to_earth, = eophis.register_tunnels( tunnel_config )
 
-Eophis is now aware of the exchanges to perform with OASIS.
+Eophis is now aware of the exchanges to perform with OASIS3-MCT.
 
 
 
-Generate OASIS material
+Generate OASIS3-MCT material
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-OASIS namelist can be generated with ``write_coupling_namelist()``. This function requires total simulation time as argument. This information is available from time parameters in Toy Earth namelist. Define a Fortran Namelist object (step 2) from ``earth_namelist_tuto`` with:
+OASIS3-MCT namelist can be generated with ``write_coupling_namelist()``. This function requires total simulation time as argument. This information is available from time parameters in Toy Earth namelist. Define a Fortran Namelist object (step 2) from ``earth_namelist_tuto`` with:
 
 .. code-block :: python
 
@@ -196,7 +196,7 @@ and read parameters (step 3) with:
     step, it_end, it_0 = earth_nml.get('rn_Dt','nn_itend','nn_it000')
     total_time = (it_end - it_0 + 1) * step
 
-We finally generate OASIS namelist (step 5) with:
+We finally generate OASIS3-MCT namelist (step 5) with:
 
 .. code-block :: python
 
@@ -208,14 +208,14 @@ Eophis preproduction script is now ready to be executed:
 
     python3 ./eophis_script_tuto.py --exec preprod
 
-We have generated four files: Eophis logs ``eophis.out``, ``eophis.err``, and namelists ``namcouple``, ``eophis_nml``. The first namelist is required by OASIS, while the latter contains the exchanges information under Fortran namelist format. Thus, it can be used by a Fortran program to have access to Tunnel definition and help configure coupling. Do no remove them (or rerun Eophis preproduction script).
+We have generated four files: Eophis logs ``eophis.out``, ``eophis.err``, and namelists ``namcouple``, ``eophis_nml``. The first namelist is required by OASIS3-MCT, while the latter contains the exchanges information under Fortran namelist format. Thus, it can be used by a Fortran program to have access to Tunnel definition and help configure coupling. Do no remove them (or rerun Eophis preproduction script).
 
 
 
 Configure Toy Earth
 ~~~~~~~~~~~~~~~~~~~
 
-Toy Earth needs to know the names under which OASIS will manipulate the variables to exchange. This information is available in ``eophis.log``:
+Toy Earth needs to know the names under which OASIS3-MCT will manipulate the variables to exchange. This information is available in ``eophis.log``:
 
 .. code-block:: bash
 
@@ -236,7 +236,7 @@ Toy Earth needs to know the names under which OASIS will manipulate the variable
           - X -> M_IN_1
 
 
-We can see here that ``U``, ``force_U``, and ``X`` are manipulated by OASIS under ``E_OUT_0``, ``E_IN_0``, and ``E_OUT_1``, respectively. Thanks to ``eophis_nml``, Toy Earth have access to this information and is able to configure OASIS by itself. Just edit ``earth_namelist_tuto`` as follows to switch Toy Earth to coupled mode:
+We can see here that ``U``, ``force_U``, and ``X`` are manipulated by OASIS3-MCT under ``E_OUT_0``, ``E_IN_0``, and ``E_OUT_1``, respectively. Thanks to ``eophis_nml``, Toy Earth have access to this information and is able to configure OASIS3-MCT by itself. Just edit ``earth_namelist_tuto`` as follows to switch Toy Earth to coupled mode:
 
 .. code-block ::
 
@@ -251,14 +251,14 @@ We can see here that ``U``, ``force_U``, and ``X`` are manipulated by OASIS unde
 Connect models
 ~~~~~~~~~~~~~~
 
-We build now the ``production()`` function that will deploy the OASIS interface in ``models_tuto.py`` and drive the exchanges all along the run. With the exchanges defined in the registered Tunnel and the runtime information from the Fortran namelist, we have all the necessary material to start coupling. We can deploy the OASIS interface (step 6) using:
+We build now the ``production()`` function that will deploy the OASIS3-MCT interface in ``models_tuto.py`` and drive the exchanges all along the run. With the exchanges defined in the registered Tunnel and the runtime information from the Fortran namelist, we have all the necessary material to start coupling. We can deploy the OASIS3-MCT interface (step 6) using:
 
 .. code-block :: python
 
     eophis.open_tunnels()
 
 
-Coupling is now effective and we can perform exchanges with Tunnel. During preproduction phase, we defined a static exchange for ``X``. This means that receiving ``X`` must be performed manually before to start any time-automated exchanges. Now that OASIS is activated, we can receive ``X`` (step 7) with help of this Tunnel method:
+Coupling is now effective and we can perform exchanges with Tunnel. During preproduction phase, we defined a static exchange for ``X``. This means that receiving ``X`` must be performed manually before to start any time-automated exchanges. Now that OASIS3-MCT is activated, we can receive ``X`` (step 7) with help of this Tunnel method:
 
 .. code-block :: python
 
@@ -287,7 +287,7 @@ Final step is to specify connexions between the exchanged data and the Forcing M
         """
         Loop is defined with the decorator and time step information from 'earth_namelist_tuto'.
         Content of loop_core is the Router. Connexions between exchanged variables and models are defined here.
-        inputs dictionary contains the variables that Eophis automatically received from toy_earth_tuto.py through OASIS.
+        inputs dictionary contains the variables that Eophis automatically received from toy_earth_tuto.py through OASIS3-MCT.
         
         """
         outputs = {}
@@ -355,7 +355,7 @@ No need to run preproduction script again. Re-run production test case in parall
 Going further
 -------------
 
-You have seen main Eophis features for coupling a Python script with a geophysical model. Do no hesitate to check out `concepts <https://eophis.readthedocs.io/en/latest/concepts.html>`_ and `usage <https://eophis.readthedocs.io/en/latest/usage.html>`_ sections to explore more advanced eophis functionalities. `Tests <https://eophis.readthedocs.io/en/latest/tests.html>`_ section can also provide inspiration.
+You have seen main Eophis features for coupling a Python script with an ESM. Do no hesitate to check out `concepts <https://eophis.readthedocs.io/en/latest/concepts.html>`_ and `usage <https://eophis.readthedocs.io/en/latest/usage.html>`_ sections to explore more advanced Eophis functionalities. `Tests <https://eophis.readthedocs.io/en/latest/tests.html>`_ section can also provide inspiration.
 
 Using this documentation, a good exercise would be to set up a coupling where the forcing of ``U``, ``V``, and ``T`` follows these advection equations:
 

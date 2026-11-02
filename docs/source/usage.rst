@@ -45,13 +45,13 @@ This automatically creates the log files ``eophis.out`` and ``eophis.err``. The 
     ---------------------------
       Coupling Initialization
     ---------------------------
-      Checking up OASIS namelists...
+      Checking up OASIS3-MCT namelists...
           namcouple not found, looking for reference file namcouple_ref
           namcouple_ref not found either, creating it from scratch
       Reading namcouple
 
 
-Note the few lines about *Coupling Initialization*. When Eophis starts, it automatically looks for the OASIS coupling namelist ``namcouple`` to read its content.
+Note the few lines about *Coupling Initialization*. When Eophis starts, it automatically looks for the OASIS3-MCT coupling namelist ``namcouple`` to read its content.
 
 Several scenarios may occur:
     - ``namcouple`` exists alone: it is read and copied as ``namcouple_ref`` for original footprint
@@ -77,9 +77,9 @@ A last scenario is if ``namcouple`` exists but is stored elsewhere. Indeed, defa
 Note that this is ``eophis.init_namcouple()`` with execution directory as arguments that is called at the start of Eophis. Thoses features allow the user to write himself the coupling namelist.
 
 
-.. seealso:: Let's say that the user expects to deploy a Python model within an ocean model that is also coupled with an atmosphere model with OASIS. Since only one coupling namelist is required by OASIS to perform all the exchanges, the user may bring ``namcouple`` in the execution directory with pre-written information about the ocean/atmosphere coupling and use Eophis to complete it with the Python coupling information. Original ``namcouple`` will be saved under ``namcouple_ref``.
+.. seealso:: Let's say that the user expects to deploy a Python script within an ocean model that is also coupled with an atmospheric model with OASIS3-MCT. Since only one coupling namelist is required by OASIS3-MCT to perform all the exchanges, the user may bring ``namcouple`` in the execution directory with pre-written information about the ocean/atmosphere coupling and use Eophis to complete it with the Python coupling information. Original ``namcouple`` will be saved under ``namcouple_ref``.
 
-If the user does not know about ``namcouple`` or does not wish to write it, the default case keeps the creation of the OASIS namelist straightforward.
+If the user does not know about ``namcouple`` or does not wish to write it, the default case keeps the creation of the OASIS3-MCT namelist straightforward.
 
 
 
@@ -115,7 +115,7 @@ Note that ``eophis.abort()`` will also kill the execution. Here are the outputs:
     ---------------------------
       Coupling Initialization
     ---------------------------
-      Checking up OASIS namelists...
+      Checking up OASIS3-MCT namelists...
           namcouple not found, looking for reference file namcouple_ref
           namcouple_ref not found either, creating it from scratch
       Reading namcouple
@@ -186,10 +186,10 @@ Modes
 ~~~~~
 Eophis can be used in preproduction or production mode which have different purposes.
 
-    - Preproduction mode enables namelists editing. It corresponds to a stage where the coupling material needs to be configured. OASIS initialization is disabled in that mode.
+    - Preproduction mode enables namelists editing. It corresponds to a stage where the coupling material needs to be configured. OASIS3-MCT initialization is disabled in that mode.
     
     
-    - Production mode freezes namelists in *read-only*. It corresponds to a stage where the coupling material is ready for execution. Editing tools can be used to check the correspondance between the content of the read namelists with the Tunnels defined in the Eophis script. OASIS may be initialized and coupling started only in that mode.
+    - Production mode freezes namelists in *read-only*. It corresponds to a stage where the coupling material is ready for execution. Editing tools can be used to check the correspondance between the content of the read namelists with the Tunnels defined in the Eophis script. OASIS3-MCT may be initialized and coupling started only in that mode.
     
 Switching mode is done with the following commands:
 
@@ -198,7 +198,7 @@ Switching mode is done with the following commands:
     eophis.set_mode('preprod')
     eophis.set_mode('prod')
 
-.. warning :: It is strongly recommended to execute two independent instances of Eophis if you plan to use both modes. Using editing tools and directly switching to production mode to start coupling means that the geoscientific code also started and read the namelists before or during editing. In this situation, each script potentially did not read the same information, which could lead to hazardous results.
+.. warning :: It is strongly recommended to execute two independent instances of Eophis if you plan to use both modes. Using editing tools and directly switching to production mode to start coupling means that the ESM also started and read the namelists before or during editing. In this situation, each script potentially did not read the same information, which could lead to hazardous results.
 
 
     Structure of ``main.py`` shows an example of separated instructions based on the selected mode.
@@ -231,7 +231,7 @@ Switching mode is done with the following commands:
 
 Read Fortran Namelist
 ~~~~~~~~~~~~~~~~~~~~~
-Fortran namelists may be read both in preproduction and production modes. Hereunder is the content of ``earth_namelist`` with which our surrogate geoscientific model ``toy_earth.py`` will perform the simulation.
+Fortran namelists may be read both in preproduction and production modes. Hereunder is the content of ``earth_namelist`` with which our surrogate ESM ``toy_earth.py`` will perform the simulation.
 
   .. code-block:: bash
   
@@ -330,7 +330,7 @@ A Tunnel may be created both in preproduction and production modes. Since the re
                   }
 
 * ``label`` is the name of the Tunnel
-* ``grids`` are the Grids that will be partionned by OASIS and on which fields could be exchanged
+* ``grids`` are the Grids that will be partionned by OASIS3-MCT and on which fields could be exchanged
 * ``exchs`` is a list of parameters that described how the fields should be exchanged
 
 In the previous section, we defined the Grid on which we wish to perform the coupling with Toy Earth, let's use it in Tunnel:
@@ -388,9 +388,9 @@ Note here that we used pre-registered frequency values. Check out the ``eophis.u
 
 Tunnel Registration
 '''''''''''''''''''
-Although direct instantiation of a Tunnel with the class constructor is possible, it is yet not recommended. Indeed, the creation of a Tunnel does not configure the OASIS entities wrapped inside. This can be done only once OASIS is initialized and requires a good knowledge of the coupling and parallel environment.
+Although direct instantiation of a Tunnel with the class constructor is possible, it is yet not recommended. Indeed, the creation of a Tunnel does not configure the OASIS3-MCT entities wrapped inside. This can be done only once OASIS3-MCT is initialized and requires a good knowledge of the coupling and parallel environment.
 
-It is more convenient to use the Tunnel registration interface ``eophis.register_tunnels()``. In addition to Tunnel instantiation, it generates the ``namcouple`` content required for the OASIS entities encapsulated in the Tunnel. Moreover, it allows Eophis to be aware of the Tunnel and to configure it automatically.
+It is more convenient to use the Tunnel registration interface ``eophis.register_tunnels()``. In addition to Tunnel instantiation, it generates the ``namcouple`` content required for the OASIS3-MCT entities encapsulated in the Tunnel. Moreover, it allows Eophis to be aware of the Tunnel and to configure it automatically.
 
 Registration takes the same arguments as the Tunnel constructor except that they must be gathered as a list item. This way, it is possible to register several Tunnels in one call. It is also convenient to scatter the exchanges. For example: a Tunnel for the regular exchanges and a Tunnel for the static exchanges:
 
@@ -492,9 +492,9 @@ At this point, we have a Tunnel that gathers all information to perform exchange
 Edit Namelists
 ~~~~~~~~~~~~~~
 
-OASIS namcouple
+OASIS3-MCT namcouple
 '''''''''''''''
-Edit OASIS namelist ``namcouple`` is quite straightforward. During the preproduction mode, register a Tunnel with ``eophis.register_tunnels()`` automatically updates the content of ``namcouple`` that Eophis read at initialization. While not explicitely asked, this updated content only exists in Eophis memory and is not written in files.
+Edit OASIS3-MCT namelist ``namcouple`` is quite straightforward. During the preproduction mode, register a Tunnel with ``eophis.register_tunnels()`` automatically updates the content of ``namcouple`` that Eophis read at initialization. While not explicitely asked, this updated content only exists in Eophis memory and is not written in files.
 
 In case of a wrong Tunnel registration, it is possible to reset the in-memory ``namcouple`` content with:
 
@@ -505,14 +505,14 @@ In case of a wrong Tunnel registration, it is possible to reset the in-memory ``
 
 A difference is to keep in mind between ``eophis.close_tunnels()`` and ``eophis.init_namcouple()``. The latter reset the content with a new file while the first one reset the content with the same file specified at initialization.
 
-Once all Tunnels have been registered. The command to write the updated OASIS namelist is:
+Once all Tunnels have been registered. The command to write the updated OASIS3-MCT namelist is:
 
 ::
 
     eophis.write_coupling_namelist( simulation_time=total_time )
 
 
-Total simulation time is required by the OASIS namelist and is passed as argument here from the information obtained in ``earth_namelist``. If everything went well, new files ``namcouple`` and ``eophis_nml`` have been created.
+Total simulation time is required by the OASIS3-MCT namelist and is passed as argument here from the information obtained in ``earth_namelist``. If everything went well, new files ``namcouple`` and ``eophis_nml`` have been created.
 
 .. code-block :: bash
 
@@ -559,7 +559,7 @@ Total simulation time is required by the OASIS namelist and is passed as argumen
 
 Without going in the details, just note the header that indicates that Eophis worked here and the comments added to identify which sections correspond to which exchanges and Tunnels.
 
-At this point, everything is ready for OASIS. For curious people or OASIS initiated users, a last editing functionality is available. In a ``namcouple`` section, like:
+At this point, everything is ready for OASIS3-MCT. For curious people or OASIS3-MCT initiated users, a last editing functionality is available. In a ``namcouple`` section, like:
 
 .. code-block :: bash
 
@@ -568,9 +568,9 @@ At this point, everything is ready for OASIS. For curious people or OASIS initia
     720 603 720 603 demo demo LAG=0
     P 2 P 2
 
-the two first terms are aliases that OASIS uses to perform the communications. ``sst`` is manipulated by OASIS under the name ``E_OUT_0`` from the Toy Earth side and under ``M_IN_0`` from the Python side. Those aliases have been set by default during Tunnel registration.
+the two first terms are aliases that OASIS3-MCT uses to perform the communications. ``sst`` is manipulated by OASIS3-MCT under the name ``E_OUT_0`` from the Toy Earth side and under ``M_IN_0`` from the Python side. Those aliases have been set by default during Tunnel registration.
 
-In Eophis, it does not matter to know these aliases since every OASIS actions are wrapped. On the contrary, it might do from the geoscientific side to setup the coupling, depending on the OASIS implementation.
+In Eophis, it does not matter to know these aliases since every OASIS3-MCT actions are wrapped. On the contrary, it might do from the ESM side to setup the coupling, depending on the OASIS3-MCT implementation.
 
 
 * A first solution is to check the log file ``eophis.out`` in which the aliases are summarized each time a Tunnel is registered:
@@ -601,7 +601,7 @@ In Eophis, it does not matter to know these aliases since every OASIS actions ar
           - msk -> M_IN_2
 
 
-* A second solution is to make the geoscientific model read the ``eophis_nml`` file. The latter contains the correspondence between field names and OASIS aliases in Fortran namelist format, as well as other useful information coming from Tunnel definition. Those are expected to help automate the configuration of OASIS:
+* A second solution is to make the ESM read the ``eophis_nml`` file. The latter contains the correspondence between field names and OASIS3-MCT aliases in Fortran namelist format, as well as other useful information coming from Tunnel definition. Those are expected to help automate the configuration of OASIS:
 
 
 .. code-block :: bash
@@ -620,7 +620,7 @@ In Eophis, it does not matter to know these aliases since every OASIS actions ar
 
 
 
-* A last solution is to specify user-defined aliases corresponding to those used in the geophysical code. This can be done with two optional Tunnel arguments ``geo_aliases`` and ``py_aliases``. Both are dictionnaries that associate an alias to the fields names defined in Tunnel for the Earth side and the Model side, respectively. For example:
+* A last solution is to specify user-defined aliases corresponding to those used in the ESM. This can be done with two optional Tunnel arguments ``geo_aliases`` and ``py_aliases``. Both are dictionnaries that associate an alias to the fields names defined in Tunnel for the Earth side and the Model side, respectively. For example:
 
 
 ::
@@ -714,15 +714,15 @@ In this mode, Tunnel registration is still required and will check the consisten
 
 Init coupling
 ~~~~~~~~~~~~~
-To initialize the OASIS environement, run:
+To initialize the OASIS3-MCT environement, run:
 
 ::
 
     eophis.open_tunnels()
 
-Coupling is now effective and exchanges may be executed by OASIS and the Tunnels.
+Coupling is now effective and exchanges may be executed by OASIS3-MCT and the Tunnels.
 
-.. warning :: To be coupled with OASIS, the Eophis script and the geoscientific code should be launched on the same MPI execution:
+.. warning :: To be coupled with OASIS3-MCT, the Eophis script and the ESM should be launched on the same MPI execution:
 
     .. code-block :: bash
 
@@ -732,7 +732,7 @@ Coupling is now effective and exchanges may be executed by OASIS and the Tunnels
 
 Calling ``eophis.open_tunnels()`` while Eophis is executed lonely will lead to an error.
 
-To terminate the OASIS environment, use:
+To terminate the OASIS3-MCT environment, use:
 
 ::
 
@@ -779,7 +779,7 @@ Remember that static exchanges can be performed only once and are ignored in Loo
 
 Use a Tunnel with only static exchanges as argument for a Loop will do nothing.
 
-.. note:: A static exchange has no reality for OASIS. The field associated with ``msk`` is sent from the geoscientific side with the OASIS API as any other field. In practice, the frequency value written in ``namcouple`` for a static field is equal to the final simulation time. This way, OASIS allows to perform the exchange only at time zero.
+.. note:: A static exchange has no reality for OASIS3-MCT. The field associated with ``msk`` is sent from the ESM side with the OASIS3-MCT API as any other field. In practice, the frequency value written in ``namcouple`` for a static field is equal to the final simulation time. This way, OASIS3-MCT allows to perform the exchange only at time zero.
 
 
 
