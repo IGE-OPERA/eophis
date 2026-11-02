@@ -24,10 +24,29 @@ identifiers:
   - type: doi
     value: 10.5281/zenodo.13852038
     description: URL of Eophis version 1.1.0
-  - type: url
-    value: 'https://gmd.copernicus.org/articles/10/3297/2017/'
-    description: OASIS-MCT3 heritage link
 repository-code: 'https://github.com/meom-group/eophis'
+preferred-citation:
+  type: article
+  title: >-
+    Deploying machine learning components coupled to Earth
+    System Models with OASIS3-MCT (v6) and Eophis (v1.1)
+  authors:
+    - given-names: Alexis
+      family-names: Barge
+    - given-names: Julien
+      family-names: Le Sommer
+    - given-names: Andrea
+      family-names: Storto
+    - given-names: Sophie
+      family-names: Valcke
+  journal: Geoscientific Model Development
+  volume: 19
+  start: 10345
+  end: 10363
+  year: 2026
+  month: 10
+  doi: 10.5194/gmd-19-10345-2026
+  url: https://doi.org/10.5194/gmd-19-10345-2026
 abstract: >-
   Eophis is a collection of tools to facilitate the creation
   and the configuration of an OASIS environment in a Python

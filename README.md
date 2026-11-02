@@ -6,14 +6,14 @@
 [![Documentation Status](https://readthedocs.org/projects/eophis/badge/?version=latest)](https://eophis.readthedocs.io/en/latest/?badge=latest)
 
 
-**_Eophis_** is a collection of tools to ease the deployment of Python scripts (as pre-trained Machine Learning components) within Fortran/C geoscientific models through OASIS.
+**_Eophis_** is a collection of tools to ease the deployment of Python scripts (as pre-trained Machine Learning components) within Fortran ESM through OASIS3-MCT.
 > _Also it is the currently oldest known snake ancestra (2023)_
 
 **Strategy**
 
-[OASIS](https://oasis.cerfacs.fr/en/) is a parallelized Fortran coupling library that performs field exchanges between coupled executables. Last releases provided C and Python APIs, which enable coupling between non-homogeneously written codes. 
+[OASIS3-MCT](https://oasis.cerfacs.fr/en/) is a middleware framework widely used in the climate modelling community to performs field exchanges between coupled components. It provides Fortran, C and Python APIs, which enable coupling between non-homogeneously written codes.
 Basically, Eophis allows to: 
-   - (i) wrap an OASIS interface to exchange data with a coupled physic-based code
+   - (i) wrap an OASIS3-MCT interface to exchange data with a coupled ESM
    - (ii) wrap inference models into a simple in/out interface
    - (iii) emulate time evolution to synchronize connexions between scripts.
 
@@ -34,14 +34,17 @@ Check out corresponding sections in [Eophis documentation](https://eophis.readth
 ## *Real-World* cases
 
 Those projects use Eophis:
-- [Morays](https://github.com/morays-community) : Python scripts deployed in ocean models with Eophis
-
+- [Morays](https://github.com/morays-community) : Python scripts deployed in ocean models
+- [LMDZ-GCM96x95-Wind_Bias_Corr](https://github.com/TRACCS-COMPACT/LMDZ-GCM96x95-Wind_Bias_Corr) : Data-driven wind bias correction deployed in the atmospheric general circulation model [LMDZ](https://lmdz.lmd.jussieu.fr/)
 
 ## How to cite
 
-[![DOI](https://zenodo.org/badge/713480336.svg)](https://doi.org/10.5281/zenodo.13852038) 
+[![DOI](https://zenodo.org/badge/713480336.svg)](https://doi.org/10.5281/zenodo.13852038) : Repository archive
 
-Please use above DOI or **Cite this repository** button in the **About** section of the repository
+[GMD publication](https://doi.org/10.5194/gmd-19-10345-2026)
+
+Please use above DOIs or **Cite this repository** button in the **About** section of the repository
+
 
 
 ## Contributing
