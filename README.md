@@ -1,5 +1,7 @@
 # Eophis
 
+Version 1.1.1
+
 ![Python Version](https://img.shields.io/badge/Python-3.10%20%2F%203.11%20%2F%203.12-blue)
 [![C, Fortran, and MPI Required](https://img.shields.io/badge/Compilers-C%20%2F%20Fortran%20%2F%20MPI-important)](https://www.open-mpi.org/)
 [![netcdf Required](https://img.shields.io/badge/Build-netCDF%E2%80%93C%20%2F%20netCDF%E2%80%93F-important)](https://www.unidata.ucar.edu/software/netcdf/)
@@ -17,10 +19,6 @@ Basically, Eophis allows to:
    - (ii) wrap inference models into a simple in/out interface
    - (iii) emulate time evolution to synchronize connexions between scripts.
 
-**Current development objectives**
-   - tools to write coupling info in geoscientific codes namelists
-   - tools for time diagnostic
-   - enhance packaging
 
 ## Quickstart
 
@@ -35,15 +33,19 @@ Check out corresponding sections in [Eophis documentation](https://eophis.readth
 
 Those projects use Eophis:
 - [Morays](https://github.com/morays-community) : Python scripts deployed in ocean models
-- [LMDZ-GCM96x95-Wind_Bias_Corr](https://github.com/TRACCS-COMPACT/LMDZ-GCM96x95-Wind_Bias_Corr) : Data-driven wind bias correction deployed in the atmospheric general circulation model [LMDZ](https://lmdz.lmd.jussieu.fr/)
+- [LMDZ-GCM96x95-Wind_Bias_Corr](https://github.com/TRACCS-COMPACT/LMDZ-GCM96x95-Wind_Bias_Corr) : Data-driven wind bias correction deployed in the atmospheric GCM [LMDZ](https://lmdz.lmd.jussieu.fr/)
+
+
+## Performance and benchmark
+
+For a detailed description of the Eophis and OASIS3-MCT computational performance for hybrid modeling and comparisons with alternative approaches, see [Barge et al. GMD (2026)](https://doi.org/10.5194/gmd-19-10345-2026)
+
 
 ## How to cite
 
-[![DOI](https://zenodo.org/badge/713480336.svg)](https://doi.org/10.5281/zenodo.13852038) : Repository archive
+[![DOI](https://zenodo.org/badge/713480336.svg)](https://doi.org/10.5281/zenodo.13852038)
 
-[GMD publication](https://doi.org/10.5194/gmd-19-10345-2026)
-
-Please use above DOIs or **Cite this repository** button in the **About** section of the repository
+Please use above DOI or **Cite this repository** button in the **About** section of the repository
 
 
 
@@ -53,6 +55,6 @@ See [CONTRIBUTING.md](https://github.com/meom-group/eophis/blob/main/CONTRIBUTIN
 
 ## License
 
-Copyright &copy; IGE-MEOM
+Copyright &copy; IGE-OPERA
 
 Eophis is distributed under the [MIT License](https://github.com/meom-group/eophis/blob/main/LICENSE).
