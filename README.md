@@ -1,6 +1,6 @@
 # Eophis
 
-Version 1.1.1
+**Version 1.1.1**
 
 ![Python Version](https://img.shields.io/badge/Python-3.10%20%2F%203.11%20%2F%203.12-blue)
 [![C, Fortran, and MPI Required](https://img.shields.io/badge/Compilers-C%20%2F%20Fortran%20%2F%20MPI-important)](https://www.open-mpi.org/)
@@ -33,7 +33,7 @@ Check out corresponding sections in [Eophis documentation](https://eophis.readth
 
 Those projects use Eophis:
 - [Morays](https://github.com/morays-community) : Python scripts deployed in ocean models
-- [LMDZ-GCM96x95-Wind_Bias_Corr](https://github.com/TRACCS-COMPACT/LMDZ-GCM96x95-Wind_Bias_Corr) : Data-driven wind bias correction deployed in the atmospheric GCM [LMDZ](https://lmdz.lmd.jussieu.fr/)
+- [TRACCS-COMPACT](https://github.com/TRACCS-COMPACT/Hybrid_Python-LMDZ) : Python scripts deployed in atmospheric GCM LMDZ
 
 
 ## Performance and benchmark
